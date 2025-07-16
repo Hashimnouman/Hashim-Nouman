@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindGigs Graphic Projects | Hashim Nouman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Internal CSS */
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #564FD8;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --gray: #E5E7EB;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 90vh;
+            min-height: 600px;
+            background: 
+                linear-gradient(rgba(233, 110, 29, 0.9), rgba(245, 118, 0, 0.7)),
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+PHJlY3Qgd2lkdGg9IjUwIiBoZWlnaHQ9IjUwIiBmaWxsPSJyZ2JhKDEwOCw5OSwyNTQsMC4wNSkiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IGZpbGw9InVybCgjcGF0dGVybikiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiLz48L3N2Zz4=') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+        
+        .scroll-indicator i {
+            color: white;
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+        
+        /* Navigation */
+        .back-btn {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            opacity: 0.8;
+            transform: translateX(-5px);
+        }
+        
+        .back-btn i {
+            margin-right: 8px;
+        }
+        
+        /* Filter Buttons */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 60px auto 40px;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            background: white;
+            border: 1px solid var(--gray);
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Gallery Grid */
+        .gallery {
+            padding: 0 20px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .gallery-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+            animation-delay: calc(var(--delay) * 0.1s);
+        }
+        
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        
+        .gallery-img-container {
+            position: relative;
+            overflow: hidden;
+            height: 0;
+            padding-bottom: 100%;
+        }
+        
+        .gallery-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            padding: 20px;
+            position: relative;
+            background: white;
+        }
+        
+        .gallery-caption h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .gallery-caption p {
+            font-size: 0.9rem;
+            color: #6B7280;
+        }
+        
+        /* Testimonial */
+        .testimonial {
+            background: white;
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            position: relative;
+        }
+        
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 5rem;
+            color: var(--primary);
+            opacity: 0.1;
+            font-family: serif;
+        }
+        
+        .testimonial p {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .client-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .client-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .client-role {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background: var(--dark);
+            color: white;
+        }
+        
+        /* Modal/Lightbox */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .modal-img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            opacity: 1;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                height: 80vh;
+                min-height: 500px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .back-btn {
+                top: 25px;
+                left: 25px;
+            }
+            
+            .testimonial {
+                padding: 30px 20px;
+                margin: 60px 20px;
+            }
+            
+            .testimonial p {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-btn {
+                padding: 6px 15px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Back Button -->
+        <a href="project.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> All Projects
+        </a>
+        
+        <div class="hero-content">
+            <h1>MindGigs Graphic Projects</h1>
+            <p>Crafted designs for digital campaigns, branding, and marketing by Hashim Nouman</p>
+        </div>
+        
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+    
+    <!-- Filter Buttons -->
+    <div class="filter-container">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="social">Social Media</button>
+        <button class="filter-btn" data-filter="branding">Branding</button>
+        <button class="filter-btn" data-filter="flyers">Flyers</button>
+        <button class="filter-btn" data-filter="banners">Banners</button>
+    </div>
+    
+    <!-- Gallery Grid -->
+    <section class="gallery">
+        <div class="gallery-grid">
+            <!-- Item 1 -->
+            <div class="gallery-item visible" data-category="social" style="--delay: 1">
+                <div class="gallery-img-container" onclick="openModal('https://via.placeholder.com/1200x1200/f3f4f6/6C63FF?text=Instagram+Post+-+App+Launch')">
+                    <img src="social madia.jpg" alt="Instagram Post" class="gallery-img">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Instagram Post</h3>
+                    <p>App Launch Campaign</p>
+                </div>
+            </div>
+            
+            <!-- Item 2 -->
+            <div class="gallery-item visible" data-category="branding" style="--delay: 2">
+                <div class="gallery-img-container" onclick="openModal('https://via.placeholder.com/1200x1200/f3f4f6/6C63FF?text=Brand+Identity+-+MindGigs')">
+                    <img src="https://via.placeholder.com/600x800/f3f4f6/6C63FF?text=Brand+Identity+-+MindGigs" alt="Brand Identity" class="gallery-img">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Brand Identity</h3>
+                    <p>MindGigs Logo & Assets</p>
+                </div>
+            </div>
+            
+            <!-- Item 3 -->
+            <div class="gallery-item visible" data-category="social" style="--delay: 3">
+                <div class="gallery-img-container" onclick="openModal('https://via.placeholder.com/1200x1200/f3f4f6/6C63FF?text=LinkedIn+Banner+-+Hiring+Campaign')">
+                    <img src="https://via.placeholder.com/1200x600/f3f4f6/6C63FF?text=LinkedIn+Banner+-+Hiring+Campaign" alt="LinkedIn Banner" class="gallery-img">
+                </div>
+                <div class="gallery-caption">
+                    <h3>LinkedIn Banner</h3>
+                    <p>Hiring Campaign</p>
+                </div>
+            </div>
+            
+            <!-- Item 4 -->
+            <div class="gallery-item visible" data-category="flyers" style="--delay: 4">
+                <div class="gallery-img-container" onclick="openModal('https://via.placeholder.com/1200x1200/f3f4f6/6C63FF?text=Event+Flyer+-+Tech+Conference')">
+                    <img src="https://via.placeholder.com/600x900/f3f4f6/6C63FF?text=Event+Flyer+-+Tech+Conference" alt="Event Flyer" class="gallery-img">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Event Flyer</h3>
+                    <p>Tech Conference Promo</p>
+                </div>
+            </div>
+            
+            <!-- Item 5 -->
+            <div class="gallery-item visible" data-category="banners" style="--delay: 5">
+                <div class="gallery-img-container" onclick="openModal('https://via.placeholder.com/1200x1200/f3f4f6/6C63FF?text=Web+Banner+-+Summer+Sale')">
+                    <img src="https://via.placeholder.com/1200x400/f3f4f6/6C63FF?text=Web+Banner+-+Summer+Sale" alt="Web Banner" class="gallery-img">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Web Banner</h3>
+                    <p>Summer Sale Promotion</p>
+                </div>
+            </div>
+            
+            <!-- Item 6 -->
+            <div class="gallery-item visible" data-category="social" style="--delay: 6">
+                <div class="gallery-img-container" onclick="openModal('https://via.placeholder.com/1200x1200/f3f4f6/6C63FF?text=Instagram+Story+-+Product+Showcase')">
+                    <img src="https://via.placeholder.com/600x1000/f3f4f6/6C63FF?text=Instagram+Story+-+Product+Showcase" alt="Instagram Story" class="gallery-img">
+                </div>
+                <div class="gallery-caption">
+                    <h3>Instagram Story</h3>
+                    <p>Product Showcase Series</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonial -->
+    <div class="testimonial">
+        <p>Hashim's designs perfectly captured our brand vision and significantly boosted engagement across all our digital platforms. His attention to detail and creative approach made working with him an absolute pleasure.</p>
+        <div class="client-info">
+            <div class="client-name">Sarah Johnson</div>
+            <div class="client-role">Marketing Director, MindGigs</div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Hashim Nouman. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Modal/Lightbox -->
+    <div class="modal" id="imageModal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <div class="modal-content">
+            <img src="" alt="Full size image" class="modal-img" id="modalImage">
+        </div>
+    </div>
+    
+    <!-- Minimal JavaScript -->
+    <script>
+        // Font Awesome icons (simulated)
+        document.addEventListener('DOMContentLoaded', function() {
+            const backBtnIcon = document.querySelector('.back-btn i');
+            const scrollIndicatorIcon = document.querySelector('.scroll-indicator i');
+            
+            if (backBtnIcon) backBtnIcon.innerHTML = '←';
+            if (scrollIndicatorIcon) scrollIndicatorIcon.innerHTML = '↓';
+            
+            // Filter functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.dataset.filter;
+                    
+                    // Filter items
+                    galleryItems.forEach(item => {
+                        if (filter === 'all' || item.dataset.category === filter) {
+                            item.style.display = 'block';
+                            item.classList.add('visible');
+                        } else {
+                            item.style.display = 'none';
+                            item.classList.remove('visible');
+                        }
+                    });
+                });
+            });
+            
+            // Scroll animation
+            const animateOnScroll = function() {
+                const items = document.querySelectorAll('.gallery-item');
+                
+                items.forEach(item => {
+                    const itemTop = item.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (itemTop < windowHeight - 100) {
+                        item.classList.add('visible');
+                    }
+                });
+            };
+            
+            // Initial check
+            animateOnScroll();
+            
+            // Check on scroll
+            window.addEventListener('scroll', animateOnScroll);
+            
+            // Smooth scroll for hero arrow
+            document.querySelector('.scroll-indicator').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('.filter-container').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            });
+        });
+        
+        // Modal functionality
+        function openModal(imgSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = imgSrc;
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

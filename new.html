@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hashim Nouman - Graphic Designer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Freestyle+Script&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+/* General styles */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(135deg, #fad2d29c 0%, #fffebfe8 41%, #a4f9ffaf 100%);
+    color: #fff;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.733);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    animation: gradient 10s ease infinite;
+    background-size: 200% 200%;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.logo {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    animation: bounce 2s infinite;
+}
+
+.logo img {
+    height: 60px; /* Smaller logo height */
+    width: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Space between logo and name */
+}
+
+.name {
+    font-family: 'Freestyle Script', cursive; /* Use Freestyle Script font */
+    font-size: 28px; /* Font size for the name */
+    color: #ffffff; /* White color for the name */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+nav {
+    flex: 1; /* Allow nav to take up remaining space */
+    display: flex;
+    justify-content: center; /* Center the navigation menu */
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 50px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000000;
+    font-size: larger;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: #ffffff; /* Highlight color */
+    font-size: x-large;
+    font-style: italic;
+    text-decoration: underline;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.signup-btn,
+.login-btn {
+    background-color: #727272;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+}
+
+.signup-btn:hover,
+.login-btn:hover {
+    background-color: #fffb00; /* Change color on hover */
+    color: #222;
+}
+
+.login-btn {
+    background-color: #007acc; /* Different background color for Log In button */
+}
+
+.login-btn:hover {
+    background-color: #005fa3; /* Darker color for hover effect */
+}
+
+/* Animation for gradient background */
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Animation for logo bounce */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Hero Section */
+.hero {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 80px; /* For fixed header space */
+    color: white;
+    overflow: hidden;
+    position: relative;
+    background-color: #222;
+}
+
+.hero .background-images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.hero .background-images img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: slide 12s infinite;
+}
+
+.hero .background-images img:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.hero .background-images img:nth-child(2) {
+    animation-delay: 4s;
+}
+
+.hero .background-images img:nth-child(3) {
+    animation-delay: 8s;
+}
+
+@keyframes slide {
+    0% { opacity: 0; }
+    8% { opacity: 1; }
+    33% { opacity: 1; }
+    41% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin: 0;
+    color: #000000;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.932);
+    z-index: 1;
+    animation: fadeIn 2s ease;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    z-index: 1;
+    margin-top: 10px;
+    animation: fadeIn 3s ease;
+}
+
+.hero button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 5px;
+    color: #007acc;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 1;
+    animation: fadeIn 4s ease;
+}
+
+.hero button:hover {
+    color: #ffffff;
+    background-color: #00d9ff;
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* About, Portfolio, Services, and Contact Sections */
+section {
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: justify;
+    font-family: 'Copperplate Gothic Bold', sans-serif; /* Use correct font property */
+    background-color: rgba(140, 247, 255, 0.37);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.575);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allow content to wrap */
+}
+
+section .text {
+    flex: 1;
+    min-width: 300px;
+}
+
+section h1 {
+    font-size: 2.5rem;
+    color: #007acc;
+    margin-bottom: 20px;
+    animation: fadeInUp 1s ease;
+}
+
+section p, section ul {
+    font-size: 1rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    animation: fadeInUp 1.5s ease;
+}
+
+section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+section ul li {
+    margin: 10px 0;
+}
+
+.image-carousel {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px; /* Perspective for 3D effect */
+    height: 300px; /* Adjust height for container */
+    position: relative;
+}
+
+.image-carousel img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 100%;
+    position:fixed;
+    transform-style: preserve-3d;
+    animation: rotateImages 10s infinite linear;
+    opacity: 0;
+}
+
+.image-carousel img:nth-child(1) {
+    animation-delay: 0s;
+    opacity: 1;
+}
+
+.image-carousel img:nth-child(2) {
+    animation-delay: 2s;
+}
+
+.image-carousel img:nth-child(3) {
+    animation-delay: 4s;
+}
+
+.image-carousel img:nth-child(4) {
+    animation-delay: 6s;
+}
+
+.image-carousel img:nth-child(5) {
+    animation-delay: 8s;
+}
+
+/* Animation for rotating images */
+@keyframes rotateImages {
+    0%, 20% {
+        opacity: 1;
+        transform: rotateY(0deg) translateZ(150px);
+    }
+    25%, 100% {
+        opacity: 0;
+        transform: rotateY(-360deg) translateZ(150px);
+    }
+}
+
+/* Animation for text fade in */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+        /* Portfolio Gallery */
+        .gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            perspective: 1000px; /* 3D perspective for gallery items */
+        }
+
+        .gallery-item {
+            margin: 10px;
+            flex-basis: calc(33.333% - 20px);
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transform: rotateY(0deg);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .gallery-item:hover {
+            transform: rotateY(25deg); /* 3D rotation effect */
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        /* Services Section */
+        .services-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .service {
+            flex: 0 1 calc(33.333% - 40px); /* Responsive columns */
+            box-sizing: border-box;
+            margin: 20px;
+            padding: 20px;
+            background-color: #007acc;
+            color: #fff;
+            border-radius: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.767);
+        }
+
+        .service:hover {
+            transform: translateY(-10px);
+            background-color: #09ff00;
+        }
+
+        .service:before {
+            content: attr(data-percentage) '%';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            background: #ffcc00;
+            color: #007acc;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 50%;
+            transition: top 0.3s ease, left 0.3s ease;
+            z-index: 1;
+        }
+
+        .service:hover:before {
+            top: 15px;
+            left: 15px;
+        }
+
+        .service h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            animation: fadeInLeft 1s ease;
+        }
+
+        .service p {
+            font-size: 1rem;
+            color: #eee;
+            line-height: 1.4;
+            animation: fadeInLeft 1.5s ease;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Contact Section */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            animation: zoomIn 1s ease;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: #007acc;
+            box-shadow: 0 0 5px rgba(0, 122, 204, 0.3);
+        }
+
+        .contact-form button {
+            padding: 10px 20px;
+            background-color: #007acc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-form button:hover {
+            background-color: #00d9ff;
+            transform: scale(1.05);
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #007acc;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            background-color: #222;
+            color: #fff;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <img src="c.png" alt="Logo">
+                    <span class="name">Hashim Nouman</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="resume.html">Resume</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="auth-buttons">
+                    <button class="signup-btn">Sign Up</button>
+                    <button class="login-btn">Log In</button>
+                </div>
+            </div>
+        </header>
+    </body>
+    </html>
+    
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="background-images">
+            <img src="a.jpg" alt="Background 1">
+            <img src="b.jpg" alt="Background 2">
+            <img src="n.jpg" alt="Background 3">
+        </div>
+        <h1>Hashim Nouman</h1>
+        <p>I am Graphic Designer & Visual Artist</p>
+        <button>Discover More</button>
+    </section>
+
+    <!-- About Section -->
+<section id="about">
+    <h1>About Me</h1>
+    <div class="content">
+        <div class="text">
+            <p>Welcome! I'm Hashim Nouman, a seasoned graphic designer with a passion for creating visually stunning designs that resonate with audiences. My expertise spans a wide range of design services, including logo design, branding, and digital media. I believe that good design is not just about aesthetics but also about solving problems and enhancing communication. My approach involves understanding your unique needs and crafting tailored solutions that align with your goals. In my free time, I enjoy [Personal Interests or Hobbies], which often inspires my work and keeps me creatively engaged. I’m always excited to take on new challenges and look forward to working with you to achieve your design objectives.</p>
+        </div>
+        <div class="image-carousel">
+            <img src="e.png" alt="Image 1">
+            <img src="i.png" alt="Image 2">
+            <img src="g.png" alt="Image 3">
+            <img src="m.png" alt="Image 4">
+            <img src="x.png" alt="Image 5">
+        </div>
+    </div>
+</section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio">
+        <h1>Portfolio</h1>
+        <div class="gallery">
+            <div class="gallery-item"><img src="c.jpg" alt="Portfolio 1"></div>
+            <div class="gallery-item"><img src="b.jpg" alt="Portfolio 2"></div>
+            <div class="gallery-item"><img src="a.jpg" alt="Portfolio 3"></div>
+            <!-- More images... -->
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h1>Services</h1>
+        <div class="services-container">
+            <div class="service" data-percentage="90">
+                <h3>Graphic Design</h3>
+                <p>Creative and innovative designs for all your needs.</p>
+            </div>
+            <div class="service" data-percentage="80">
+                <h3>Office Automation</h3>
+                <p>Streamline your business processes with our solutions.</p>
+            </div>
+            <div class="service" data-percentage="70">
+                <h3>Photo Editing</h3>
+                <p>Professional photo retouching and enhancement.</p>
+            </div>
+            <div class="service" data-percentage="75">
+                <h3>Video Editing</h3>
+                <p>Captivating video content for your brand.</p>
+            </div>
+            <div class="service" data-percentage="85">
+                <h3>SEO</h3>
+                <p>Optimize your online presence for better visibility.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h1>Contact Me</h1>
+        <div class="contact-form">
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+            <textarea placeholder="Your Message"></textarea>
+            <button>Send Message</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+<footer>
+    <p>&copy; 2024 Hashim Nouman. All rights reserved.</p>
+    <div class="social-icons">
+        <a href="https://www.facebook.com/profile.php?id=61552722311737" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://wa.me/03361963347" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/hashimnouman182" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/yourprofile" target="_blank"><i class="fab fa-linkedin"></i></a>
+    </div>
+</footer>
+
+
+</body>
+</html>

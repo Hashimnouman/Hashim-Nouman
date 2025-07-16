@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Creative Work</title>
+        <link rel="shortcut icon" href="profile.png" type="image/jpeg">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+        /* ==== GLOBAL STYLES ==== */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            line-height: 1.5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--light-gray);
+            box-shadow: 0 4px 15px rgba(203, 213, 224, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(203, 213, 224, 0.3);
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+            background-color: rgba(248, 250, 252, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.1);
+        }
+
+        header.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* === Projects Dropdown (Desktop) === */
+        .nav-links .dropdown {
+            position: relative;
+        }
+
+        .nav-links .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            padding: 10px 0;
+            list-style: none;
+            display: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            min-width: 220px;
+            z-index: 999;
+        }
+
+        .nav-links .dropdown-menu li a {
+            display: block;
+            padding: 10px 20px;
+            color: var(--dark);
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links .dropdown-menu li a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Show dropdown on desktop hover only */
+        @media (min-width: 768px) {
+            .nav-links .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        /* === Mobile Styles: dropdown stays hidden (or handled via JS/hamburger later) === */
+        @media (max-width: 767px) {
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                padding-left: 1rem;
+            }
+
+            .nav-links .dropdown:hover .dropdown-menu {
+                display: none;
+                /* Optional: handle via JS if needed */
+            }
+        }
+
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* ==== PROJECTS SECTION ==== */
+        .projects-section {
+            background-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 16px;
+        }
+
+        .section-header p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .projects-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            background: white;
+            color: var(--gray);
+            border: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid var(--light-gray);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .project-image {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+            background-color: #f1f3f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: var(--transition);
+            padding: 20px;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .project-content {
+            padding: 24px;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .project-description {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tech-tag {
+            background: var(--light);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: 1px solid var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--light);
+        }
+
+        /* ==== RESPONSIVE STYLES ==== */
+        @media (max-width: 992px) {
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .section-header p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                justify-content: center;
+            }
+        }
+    </style>
+    </head>
+    <body>
+         <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Hashim<span>Nouman</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="project.html">Project</a></li>
+                    <li><a href="Calculate Your Age.html">Age Calculator</a></li>
+                    <li><a href="QR Code.html">QR Code Generator</a></li>
+                    </ul>
+                </li>              
+            </ul>
+           <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+        <!-- Projects Section -->
+        <section class="projects-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>My Creative Work</h2>
+                    <p>A showcase of my diverse projects in web development and
+                        graphic design</p>
+                </div>
+
+                <div class="projects-filter">
+                    <button class="filter-btn active"
+                        data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="web">Web
+                        Development</button>
+                    <button class="filter-btn" data-filter="graphic">Graphic
+                        Design</button>
+                    <button class="filter-btn" data-filter="print">Print
+                        Design</button>
+                </div>
+
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <div class="project-card" data-category="print">
+                        <div class="project-image">
+                            <img src="lawaghar magazine.jpg"
+                                alt="Lawagher Magazine Design">
+                            <span class="project-badge">Print Design</span>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Lawagher Magazine</h3>
+                            <p class="project-description">Complete book design
+                                including layout, typography, and visual
+                                elements for this special publication.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Microsoft Word</span>
+                                <span class="tech-tag">Photoshop</span>
+                                <span class="tech-tag">Typography</span>
+                                <span class="tech-tag">Print Design</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="lawaghar magazine.html" class="btn btn-primary">
+                                    <i class="fas fa-eye"></i> View Samples
+                                </a>
+                                <a href="#" class="btn btn-outline">
+                                    <i class="fas fa-download"></i> PDF Preview
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="project-card" data-category="web">
+                        <div class="project-image">
+                            <img src="portfoloi website.jpg"
+                                alt="Portfolio Website">
+                            <span class="project-badge">Web Development</span>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Personal Portfolio
+                                Website</h3>
+                            <p class="project-description">Fully responsive
+                                portfolio website built from scratch using HTML,
+                                CSS, and JavaScript to showcase my work.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML5</span>
+                                <span class="tech-tag">CSS3</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">Responsive Design</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="portfolio website.html" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    Live Demo
+                                </a>
+                                <a href="#" class="btn btn-outline">
+                                    <i class="fab fa-github"></i> View Code
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card" data-category="graphic">
+                        <div class="project-image">
+                            <img src="mindgigs.jpg" alt="MindGigs Projects">
+                            <span class="project-badge">Graphic Design</span>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">MindGigs Graphic
+                                Projects</h3>
+                            <p class="project-description">Various graphic
+                                design projects including logos, social media
+                                graphics, and marketing materials.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">CorelDRAW</span>
+                                <span class="tech-tag">Photoshop</span>
+                                <span class="tech-tag">Canva</span>
+                                <span class="tech-tag">Branding</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="MindGigs project.html" class="btn btn-primary">
+                                    <i class="fas fa-images"></i> View Gallery
+                                </a>
+                                <a href="#" class="btn btn-outline">
+                                    <i class="fas fa-file-download"></i>
+                                    Download Samples
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 4 -->
+                    <div class="project-card" data-category="graphic">
+                        <div class="project-image">
+                            <img src="social madia.jpg"
+                                alt="Social Media Graphics">
+                            <span class="project-badge">Graphic Design</span>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Social Media Graphics</h3>
+                            <p class="project-description">Collection of
+                                engaging social media posts, banners, and
+                                promotional graphics for various clients.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Canva</span>
+                                <span class="tech-tag">Photoshop</span>
+                                <span class="tech-tag">Illustrator</span>
+                                <span class="tech-tag">Visual Design</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="Social Media Posts.html" class="btn btn-primary">
+                                    <i class="fab fa-instagram"></i> View Posts
+                                </a>
+                                <a href="#" class="btn btn-outline">
+                                    <i class="fas fa-palette"></i> Design
+                                    Process
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 5 -->
+                    <div class="project-card" data-category="graphic">
+                        <div class="project-image">
+                            <img src="graphic design.jpg"
+                                alt="Branding Projects">
+                            <span class="project-badge">Graphic Design</span>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Branding Projects</h3>
+                            <p class="project-description">Complete branding
+                                packages including logo design, business cards,
+                                and brand guidelines.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Logo Design</span>
+                                <span class="tech-tag">Brand Identity</span>
+                                <span class="tech-tag">CorelDRAW</span>
+                                <span class="tech-tag">Typography</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fas fa-book-open"></i> View Case
+                                    Study
+                                </a>
+                                <a href="#" class="btn btn-outline">
+                                    <i class="fas fa-file-pdf"></i> Brand
+                                    Guidelines
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 6 -->
+                    <div class="project-card" data-category="print">
+                        <div class="project-image">
+                            <img src="print material.jpg" alt="Print Materials">
+                            <span class="project-badge">Print Design</span>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Print Materials</h3>
+                            <p class="project-description">Various print design
+                                projects including brochures, flyers, and
+                                business stationery.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Print Design</span>
+                                <span class="tech-tag">Layout</span>
+                                <span class="tech-tag">CorelDRAW</span>
+                                <span class="tech-tag">InDesign</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fas fa-print"></i> View Prints
+                                </a>
+                                <a href="#" class="btn btn-outline">
+                                    <i class="fas fa-file-download"></i>
+                                    Download Samples
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            // Filter projects based on category
+            function filterProjects(category) {
+                projectCards.forEach(card => {
+                    if (category === 'all' || card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            // Add click event listeners to filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Filter projects
+                    const filterValue = this.getAttribute('data-filter');
+                    filterProjects(filterValue);
+                });
+            });
+            
+            // Initialize with all projects showing
+            filterProjects('all');
+        });
+    </script>
+    </body>
+</html>

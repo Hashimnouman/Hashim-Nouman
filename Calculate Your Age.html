@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronos - Time & Life Dashboard</title>
+    <link rel="shortcut icon" href="profile.png" type="image/jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@500;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #0084ff;
+            --accent: #ff00aa;
+            --dark: #0a0e17;
+            --darker: #05080f;
+            --glass: rgba(15, 23, 42, 0.7);
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --error: #ff4d4d;
+            --success: #00ffaa;
+            --glow: 0 0 15px rgba(0, 247, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(0, 247, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(0, 132, 255, 0.05) 0%, transparent 50%);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Time particles */
+        .time-particle {
+            position: absolute;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            filter: blur(1px);
+            opacity: 0.7;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+            transform-style: preserve-3d;
+            animation: floatTitle 6s ease-in-out infinite;
+        }
+
+        @keyframes floatTitle {
+            0%, 100% { transform: translateY(0) rotateX(0deg); }
+            50% { transform: translateY(-10px) rotateX(5deg); }
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Analog Clock */
+        .clock-container {
+            width: 250px;
+            height: 250px;
+            margin: 2rem auto;
+            position: relative;
+            border-radius: 50%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2), inset 0 0 20px rgba(0, 247, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .clock-face {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+        }
+
+        .clock-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px var(--primary);
+            z-index: 10;
+        }
+
+        .hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom;
+            border-radius: 5px;
+            transform: translateX(-50%);
+        }
+
+        .hour-hand {
+            width: 6px;
+            height: 60px;
+            background: var(--text);
+            z-index: 3;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .min-hand {
+            width: 4px;
+            height: 90px;
+            background: var(--text);
+            z-index: 4;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .sec-hand {
+            width: 2px;
+            height: 100px;
+            background: var(--accent);
+            z-index: 5;
+            box-shadow: 0 0 5px var(--accent);
+        }
+
+        .clock-mark {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: var(--text-dim);
+            left: 50%;
+            transform-origin: bottom;
+            transform: translateX(-50%);
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .calculator-card, .result-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 247, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .calculator-card:hover, .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 247, 255, 0.3);
+        }
+
+        .calculator-card::before, .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 2;
+        }
+
+        .calculator-card::after, .result-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(0, 247, 255, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .card-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .card-title i {
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(10, 14, 23, 0.6);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input[type="date"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 247, 255, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--darker);
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.3);
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 247, 255, 0.4);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Results */
+        .result-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.1);
+        }
+
+        .result-label {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-shadow: 0 0 8px rgba(0, 247, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .days-counter {
+            font-size: 3rem;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            text-align: center;
+            margin: 2rem 0;
+            text-shadow: 0 0 15px rgba(0, 247, 255, 0.7);
+            letter-spacing: 2px;
+        }
+
+        .counter-label {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Quote */
+        .quote-container {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 247, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .quote-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 247, 255, 0.3);
+        }
+
+        .quote-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .quote-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 100%, rgba(0, 247, 255, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .quote {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text);
+            line-height: 1.5;
+            font-weight: 300;
+            position: relative;
+        }
+
+        .quote::before, .quote::after {
+            content: '"';
+            color: var(--primary);
+            font-size: 2rem;
+            opacity: 0.5;
+        }
+
+        .quote::before {
+            margin-right: 0.5rem;
+        }
+
+        .quote::after {
+            margin-left: 0.5rem;
+        }
+
+        .quote-author {
+            color: var(--text-dim);
+            font-size: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Error */
+        .error-message {
+            color: var(--error);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+            text-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+        }
+
+        /* Floating gears */
+        .gear {
+            position: absolute;
+            color: rgba(0, 247, 255, 0.1);
+            font-size: 3rem;
+            z-index: -1;
+            animation: rotateGear 30s linear infinite;
+        }
+
+        @keyframes rotateGear {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .lang-btn {
+            background: rgba(0, 247, 255, 0.1);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            color: var(--text-dim);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: 'Rajdhani', sans-serif;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .lang-btn:hover {
+            background: rgba(0, 247, 255, 0.2);
+            color: var(--primary);
+        }
+
+        .lang-btn.active {
+            background: rgba(0, 247, 255, 0.3);
+            color: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 247, 255, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+                margin-top: 1rem;
+            }
+            
+            .clock-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .language-toggle {
+                position: static;
+                justify-content: center;
+                margin-bottom: 1rem;
+            }
+            
+            .days-counter {
+                font-size: 2.5rem;
+            }
+            
+            .quote {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .dashboard {
+                gap: 1.5rem;
+            }
+            
+            .calculator-card, .result-card {
+                padding: 1.5rem;
+            }
+            
+            .result-value {
+                font-size: 1.5rem;
+            }
+            
+            .quote-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Floating gears -->
+        <div class="gear" style="top: 10%; left: 5%;">⚙️</div>
+        <div class="gear" style="top: 70%; right: 5%;">⚙️</div>
+        
+        <!-- Time particles -->
+        <div id="particles"></div>
+        
+        <!-- Language Toggle -->
+        <div class="language-toggle">
+            <button class="lang-btn active" id="en-btn">ENGLISH</button>
+            <button class="lang-btn" id="ur-btn">اردو</button>
+        </div>
+        
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">CHRONOS DASHBOARD</h1>
+            <p class="subtitle">Your personal temporal analytics interface</p>
+        </div>
+        
+        <!-- Analog Clock -->
+        <div class="clock-container">
+            <div class="clock-face">
+                <div class="clock-center"></div>
+                <div class="hand hour-hand" id="hour-hand"></div>
+                <div class="hand min-hand" id="min-hand"></div>
+                <div class="hand sec-hand" id="sec-hand"></div>
+                <!-- Clock marks -->
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(0deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(30deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(60deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(90deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(120deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(150deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(180deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(210deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(240deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(270deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(300deg); top: 5px;"></div>
+                <div class="clock-mark" style="transform: translateX(-50%) rotate(330deg); top: 5px;"></div>
+            </div>
+        </div>
+        
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <!-- Calculator Card -->
+            <div class="calculator-card">
+                <h2 class="card-title"><i>⏳</i> AGE CALCULATOR</h2>
+                
+                <div class="input-group">
+                    <label for="dob">DATE OF BIRTH</label>
+                    <input type="date" id="dob" max="">
+                </div>
+                
+                <button id="calculate-btn" class="btn">CALCULATE TIME</button>
+                <div class="error-message" id="error-message"></div>
+            </div>
+            
+            <!-- Result Card -->
+            <div class="result-card">
+                <h2 class="card-title"><i>⌛</i> TEMPORAL ANALYSIS</h2>
+                
+                <div class="result-item">
+                    <div class="result-label"><i>📅</i> YOUR AGE</div>
+                    <div class="result-value" id="age-result">--</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label"><i>⏱️</i> TOTAL DAYS LIVED</div>
+                    <div class="result-value" id="total-days">--</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-label"><i>🎂</i> DAYS UNTIL NEXT BIRTHDAY</div>
+                    <div class="result-value" id="next-bday">--</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Live Days Counter -->
+        <div class="calculator-card">
+            <h2 class="card-title"><i>🔢</i> LIVE DAYS COUNTER</h2>
+            <div class="counter-label">TOTAL DAYS YOU'VE BEEN ALIVE</div>
+            <div class="days-counter" id="live-counter">0</div>
+        </div>
+        
+        <!-- Quote -->
+        <div class="quote-container">
+            <p class="quote" id="time-quote">Time is your greatest treasure. Every second counts.</p>
+            <p class="quote-author">- Chronos Dashboard</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create time particles
+            createParticles();
+            
+            // Set max date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dob').setAttribute('max', today);
+            
+            // Analog Clock
+            function updateAnalogClock() {
+                const now = new Date();
+                
+                const hours = now.getHours() % 12;
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+                
+                const hourDeg = (hours * 30) + (minutes * 0.5);
+                const minDeg = minutes * 6;
+                const secDeg = seconds * 6;
+                
+                document.getElementById('hour-hand').style.transform = `translateX(-50%) rotate(${hourDeg}deg)`;
+                document.getElementById('min-hand').style.transform = `translateX(-50%) rotate(${minDeg}deg)`;
+                document.getElementById('sec-hand').style.transform = `translateX(-50%) rotate(${secDeg}deg)`;
+                
+                // Update live counter if DOB is set
+                const dobInput = document.getElementById('dob').value;
+                if (dobInput) {
+                    updateLiveCounter();
+                }
+            }
+            
+            setInterval(updateAnalogClock, 1000);
+            updateAnalogClock();
+            
+            // Calculate Age
+            document.getElementById('calculate-btn').addEventListener('click', calculateAge);
+            
+            function calculateAge() {
+                const dobInput = document.getElementById('dob').value;
+                const errorElement = document.getElementById('error-message');
+                
+                if (!dobInput) {
+                    errorElement.textContent = "Please enter your date of birth";
+                    errorElement.style.display = "block";
+                    return;
+                }
+                
+                const dob = new Date(dobInput);
+                const today = new Date();
+                
+                if (dob > today) {
+                    errorElement.textContent = "Date of birth cannot be in the future";
+                    errorElement.style.display = "block";
+                    return;
+                }
+                
+                errorElement.style.display = "none";
+                
+                // Calculate age
+                let ageYears = today.getFullYear() - dob.getFullYear();
+                let ageMonths = today.getMonth() - dob.getMonth();
+                let ageDays = today.getDate() - dob.getDate();
+                
+                // Adjust for negative months/days
+                if (ageDays < 0) {
+                    ageMonths--;
+                    const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                    ageDays += lastMonth.getDate();
+                }
+                
+                if (ageMonths < 0) {
+                    ageYears--;
+                    ageMonths += 12;
+                }
+                
+                // Format age display
+                document.getElementById('age-result').textContent = 
+                    `${ageYears} years, ${ageMonths} months, ${ageDays} days`;
+                
+                // Calculate total days
+                const diffTime = Math.abs(today - dob);
+                const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                // Animate total days counter
+                animateValue('total-days', 0, totalDays, 1000);
+                
+                // Calculate days until next birthday
+                const nextBirthday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+                if (today > nextBirthday) {
+                    nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+                }
+                const daysUntilNextBday = Math.floor((nextBirthday - today) / (1000 * 60 * 60 * 24));
+                
+                animateValue('next-bday', 0, daysUntilNextBday, 1000);
+                
+                // Update live counter
+                updateLiveCounter();
+                
+                // Update quote
+                updateQuote(ageYears);
+            }
+            
+            // Animate value counting up
+            function animateValue(id, start, end, duration) {
+                const obj = document.getElementById(id);
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    obj.textContent = Math.floor(progress * (end - start) + start);
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+            
+            // Update live counter
+            function updateLiveCounter() {
+                const dobInput = document.getElementById('dob').value;
+                if (!dobInput) return;
+                
+                const dob = new Date(dobInput);
+                const today = new Date();
+                const diffTime = Math.abs(today - dob);
+                const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                document.getElementById('live-counter').textContent = totalDays;
+            }
+            
+            // Update time-related quote
+            function updateQuote(age) {
+                const quotes = [
+                    `At ${age}, you're not getting older, you're leveling up in life.`,
+                    `${age} years of wisdom, experiences, and memories.`,
+                    `Time isn't holding us, time isn't after us. You've lived ${age} remarkable years.`,
+                    `${age} trips around the sun - each one unique and valuable.`,
+                    `Your ${age} years are ${age} chapters in your extraordinary story.`,
+                    `${age} years young and still writing your timeline.`,
+                    `Time is the most valuable coin in your life. You've spent ${age} years wisely.`,
+                    `The past ${age} years are not gone, they're stored in the memory of time.`,
+                    `You've been alive for ${age} revolutions around the sun. The journey continues.`,
+                    `${age} years of moments that shaped who you are today.`
+                ];
+                
+                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                document.getElementById('time-quote').textContent = randomQuote;
+            }
+            
+            // Create time particles
+            function createParticles() {
+                const container = document.getElementById('particles');
+                const particleCount = window.innerWidth < 768 ? 30 : 80;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('time-particle');
+                    
+                    // Random properties
+                    const size = Math.random() * 8 + 2;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const opacity = Math.random() * 0.5 + 0.1;
+                    const animationDuration = Math.random() * 30 + 15;
+                    const delay = Math.random() * 30;
+                    
+                    // Apply styles
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = `${posY}%`;
+                    particle.style.opacity = opacity;
+                    particle.style.animation = `float ${animationDuration}s linear ${delay}s infinite`;
+                    
+                    // Add to container
+                    container.appendChild(particle);
+                }
+                
+                // Add floating animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes float {
+                        0% { transform: translate(0, 0) rotate(0deg); opacity: ${Math.random() * 0.5 + 0.1}; }
+                        50% { transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) rotate(180deg); opacity: ${Math.random() * 0.8 + 0.1}; }
+                        100% { transform: translate(0, 0) rotate(360deg); opacity: ${Math.random() * 0.5 + 0.1}; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            // Language toggle
+            document.getElementById('en-btn').addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('ur-btn').classList.remove('active');
+                // In a full implementation, we would update all text to English
+            });
+            
+            document.getElementById('ur-btn').addEventListener('click', function() {
+                this.classList.add('active');
+                document.getElementById('en-btn').classList.remove('active');
+                // In a full implementation, we would update all text to Urdu
+            });
+        });
+    </script>
+</body>
+</html>

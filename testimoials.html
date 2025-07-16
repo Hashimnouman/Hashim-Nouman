@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Testimonials</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: var(--primary);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--light-gray);
+            box-shadow: 0 4px 15px rgba(203, 213, 224, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(203, 213, 224, 0.3);
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+            background-color: rgba(248, 250, 252, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.1);
+        }
+
+        header.scrolled {
+            padding: 0.5rem 0;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--dark);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* === Projects Dropdown (Desktop) === */
+        .nav-links .dropdown {
+            position: relative;
+        }
+
+        .nav-links .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            padding: 10px 0;
+            list-style: none;
+            display: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+            min-width: 220px;
+            z-index: 999;
+        }
+
+        .nav-links .dropdown-menu li a {
+            display: block;
+            padding: 10px 20px;
+            color: var(--dark);
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links .dropdown-menu li a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Show dropdown on desktop hover only */
+        @media (min-width: 768px) {
+            .nav-links .dropdown:hover .dropdown-menu {
+                display: block;
+            }
+        }
+
+        /* === Mobile Styles: dropdown stays hidden (or handled via JS/hamburger later) === */
+        @media (max-width: 767px) {
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                padding-left: 1rem;
+            }
+
+            .nav-links .dropdown:hover .dropdown-menu {
+                display: none;
+                /* Optional: handle via JS if needed */
+            }
+        }
+
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+
+        .testimonials-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #3498db;
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .testimonials-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            flex: 1 1 300px;
+            max-width: 350px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .testimonial-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .testimonial-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .testimonial-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .client-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            display: block;
+            border: 3px solid #3498db;
+        }
+
+        .client-name {
+            text-align: center;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .rating {
+            text-align: center;
+            color: #f39c12;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .testimonials-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .testimonial-card {
+                max-width: 100%;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .testimonial-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+     <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">Hashim<span>Nouman</span></a>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Calculate Your Age.html">Age Calculator</a></li>
+                    <li><a href="QR Code.html">QR Code Generator</a></li>
+                    <li><a href="project.html">Project</a></li>
+                    </ul>
+                </ul>
+
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section class="testimonials-section">
+        <h2 class="section-title">What Clients Say</h2>
+        
+        <div class="testimonials-container">
+            <div class="testimonial-card">
+                <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Client" class="client-image">
+                <h3 class="client-name">Sarah Johnson</h3>
+                <p class="testimonial-text">
+                    "Working with this designer was an absolute pleasure. They understood my vision perfectly and delivered beyond my expectations. The website they created has significantly boosted our online presence."
+                </p>
+                <div class="rating">★★★★★</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client" class="client-image">
+                <h3 class="client-name">Michael Chen</h3>
+                <p class="testimonial-text">
+                    "Exceptional attention to detail and creative solutions. Our project was completed on time and within budget. I highly recommend their services to anyone looking for top-quality web design."
+                </p>
+                <div class="rating">★★★★★</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Client" class="client-image">
+                <h3 class="client-name">Emma Rodriguez</h3>
+                <p class="testimonial-text">
+                    "The designer transformed our outdated website into a modern, user-friendly platform. Their communication was excellent throughout the process, and the results speak for themselves."
+                </p>
+                <div class="rating">★★★★★</div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

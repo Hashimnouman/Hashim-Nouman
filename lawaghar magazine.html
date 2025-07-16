@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawaghar Magazine - Multilingual Publication</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Internal CSS */
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --accent: #4fc3f7;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-color: white;
+            text-align: center;
+            padding: 100px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary);
+            animation: fadeIn 1s ease;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--secondary);
+            animation: fadeIn 1.2s ease;
+        }
+        
+        /* Language Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 25px;
+            background: white;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            margin: 0 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .tab-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Magazine Sections */
+        .magazine-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .magazine-section.active {
+            display: block;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .pdf-container {
+            width: 100%;
+            height: 600px;
+            margin: 20px 0;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .pdf-container embed, 
+        .pdf-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .download-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .btn-container {
+            text-align: center;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background: var(--dark);
+            color: white;
+            margin-top: 50px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .pdf-container {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .pdf-container {
+                height: 400px;
+            }
+            
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                margin: 5px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .pdf-container {
+                height: 300px;
+            }
+            
+            .section-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Lawaghar Magazine</h1>
+            <p>Explore the magazine in English, Urdu, and Pashto</p>
+        </div>
+    </section>
+    
+    <!-- Magazine Sections -->
+    <div class="container">
+        <!-- Language Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="english">English</button>
+            <button class="tab-btn" data-tab="urdu">Urdu</button>
+            <button class="tab-btn" data-tab="pashto">Pashto</button>
+        </div>
+        
+        <!-- English Section -->
+        <section id="english" class="magazine-section active">
+            <div class="section-header">
+                <h2>English Section</h2>
+                <p>Contemporary literature and articles in English</p>
+            </div>
+            
+            <div class="pdf-container">
+                <!-- Replace with your actual PDF path -->
+                <embed src="lawaghar.pdf" type="application/pdf">
+            </div>
+            
+            <div class="btn-container">
+                <a href="lawaghar.pdf" class="download-btn" download="LawagharMagazine-English.pdf">
+                    Download English PDF
+                </a>
+            </div>
+        </section>
+        
+        <!-- Urdu Section -->
+        <section id="urdu" class="magazine-section">
+            <div class="section-header">
+                <h2>Urdu Section</h2>
+                <p>ادبی تخلیقات اور مضامین اردو میں</p>
+            </div>
+            
+            <div class="pdf-container">
+                <!-- Replace with your actual PDF path -->
+                <embed src="https://example.com/path-to-urdu-magazine.pdf#view=FitH" type="application/pdf">
+            </div>
+            
+            <div class="btn-container">
+                <a href="https://example.com/path-to-urdu-magazine.pdf" class="download-btn" download="Lawaghar-Urdu.pdf">
+                    ڈاؤن لوڈ اردو پی ڈی ایف
+                </a>
+            </div>
+        </section>
+        
+        <!-- Pashto Section -->
+        <section id="pashto" class="magazine-section">
+            <div class="section-header">
+                <h2>Pashto Section</h2>
+                <p>پښتو ادب او مقالې</p>
+            </div>
+            
+            <div class="pdf-container">
+                <!-- Replace with your actual PDF path -->
+                <embed src="https://example.com/path-to-pashto-magazine.pdf#view=FitH" type="application/pdf">
+            </div>
+            
+            <div class="btn-container">
+                <a href="https://example.com/path-to-pashto-magazine.pdf" class="download-btn" download="Lawaghar-Pashto.pdf">
+                    پښتو PDF ډاونلوډ کړئ
+                </a>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+                <p style="cursor: pointer;"
+                    onclick="document.getElementById('hero').scrollIntoView({behavior: 'smooth'})">&copy; <span
+                        id="year"></span> Hashim Nouman. All rights reserved.</p>
+            </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // Tab functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const magazineSections = document.querySelectorAll('.magazine-section');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons and sections
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
+                    magazineSections.forEach(section => section.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Scroll animations
+            const fadeElements = document.querySelectorAll('.hero h1, .hero p, .magazine-section');
+            
+            function checkScroll() {
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.style.opacity = "1";
+                        element.style.transform = "translateY(0)";
+                    }
+                });
+            }
+            
+            // Initial check
+            checkScroll();
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkScroll);
+        });
+    </script>
+</body>
+</html>
